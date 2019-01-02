@@ -7,6 +7,7 @@ import { MyMaterialModuleModule } from './my-material-module.module';
 
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     BrowserModule,
     BrowserAnimationsModule,
     MyMaterialModuleModule,
-    LayoutModule
+    LayoutModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
