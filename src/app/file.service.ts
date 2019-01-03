@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
+import { publishReplay } from 'rxjs/operators';
 
 export interface Items {
   files: Item[];
@@ -18,7 +19,7 @@ export interface Item {
 })
 export class FileService {
   url = this.config.getApiURL();
-  files: Map<string, Items> = new Map<string, Items>();
+  files: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
 
   getFiles(path: string): Observable<Item[]> {
     return new Observable<Item[]>(
@@ -41,23 +42,21 @@ export class FileService {
   }
 
   getItems(path: string): Observable<Items> {
-    if (this.files[path] === null) {
-      return of(this.files[path]);
+    if (this.files.has(path)) {
+      return this.files.get(path);
     } else {
-      return new Observable<Items>(
-        observable => {
-          this.http.get<Items>(this.url, {
-            params: {
-              path: path
-            }
-          }).subscribe(
-            items => {
-              this.files.set(path, items);
-              observable.next(items);
-            }
-          );
+      const observable: Observable<Items> = this.http.get<Items>(this.url, {
+        params: {
+          path: path
         }
+      }).pipe(
+        res => {
+          this.files.set(path, res);
+          return res;
+        },
+        publishReplay()
       );
+      return observable;
     }
   }
 
