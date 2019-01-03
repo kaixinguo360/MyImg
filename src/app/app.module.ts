@@ -8,13 +8,11 @@ import { MyMaterialModuleModule } from './my-material-module.module';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { AlbumComponent } from './album/album.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardComponent,
     AlbumComponent
   ],
   imports: [
