@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
-import { publishReplay } from 'rxjs/operators';
+import { shareReplay } from 'rxjs/operators';
 
 export interface Items {
   files: Item[];
@@ -48,14 +48,16 @@ export class FileService {
       const observable: Observable<Items> = this.http.get<Items>(this.url, {
         params: {
           path: path
+        },
+        headers: {
+          'Cache-Control' : 'max-age=50'
         }
       }).pipe(
-        res => {
-          this.files.set(path, res);
-          return res;
-        },
-        publishReplay()
+        shareReplay(1)
       );
+
+      this.files.set(path, observable);
+
       return observable;
     }
   }

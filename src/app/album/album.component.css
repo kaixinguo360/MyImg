@@ -4,10 +4,20 @@
 
 .dashboard-card {
   position: absolute;
-  top: 15px;
-  left: 15px;
-  right: 15px;
-  bottom: 15px;
+  top:    8px;
+  left:   8px;
+  right:  8px;
+  bottom: 8px;
+  cursor: pointer;
+}
+
+.dashboard-card-album {
+  position: absolute;
+  top:    2px;
+  left:   8px;
+  right:  8px;
+  bottom: 2px;
+  cursor: pointer;
 }
 
 .more-button {

@@ -5,8 +5,8 @@
                [opened]="!(isHandset$ | async)">
     <mat-toolbar>Menu</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item href="album?path=.">Link 1</a>
-      <a mat-list-item href="album?path=Girls">Link 2</a>
+      <a mat-list-item routerLink="/album">Link 1</a>
+      <a mat-list-item routerLink="/album" [queryParams]="{path:'Girls'}">Link 2</a>
       <a mat-list-item href="#">Link 3</a>
     </mat-nav-list>
   </mat-sidenav>
