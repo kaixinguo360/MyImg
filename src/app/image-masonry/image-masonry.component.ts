@@ -1,5 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Image} from '../album/album.component';
+import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
+
+import { Image } from '../album/album.component';
 
 @Component({
   selector: 'app-image-masonry',
@@ -8,11 +10,38 @@ import {Image} from '../album/album.component';
 })
 export class ImageMasonryComponent implements OnInit {
 
+  mobileWidth = 450;
+  columnWidth = 250;
+  isMobile = window.innerWidth < this.mobileWidth;
+  itemClass = this.isMobile ? 'masonry-item-mobile' : 'masonry-item-desktop';
+  @ViewChild('masonry') masonry: NgxMasonryComponent;
+
+  public masonryOptions: NgxMasonryOptions = {
+    transitionDuration: '0.2s',
+    gutter: 0,
+    columnWidth: this.isMobile ? '.masonry-item-mobile' : 250,
+    resize: false,
+    initLayout: true,
+    percentPosition: this.isMobile
+  };
+
   @Input() images: Image[];
+
+  width: number;
+  itemWidth: string;
 
   constructor() { }
 
   ngOnInit() {
+    this.onResize();
   }
 
+  @HostListener('window:resize')
+  onResize() {
+    if (this.isMobile) {
+      this.width = window.innerWidth;
+    } else {
+      this.width = (Math.round(window.innerWidth / this.columnWidth) - 1) * this.columnWidth;
+    }
+  }
 }

@@ -1,11 +1,17 @@
 .masonry-container {
-  margin: 10px;
+  margin: 0 auto;
 }
 
-.masonry-item {
-  position: relative;
-  max-width: 240px;
+.masonry-item-mobile {
   width: 50%;
+}
+
+.masonry-item-desktop {
+  width: 250px;
+}
+
+.image-container {
+  position: relative;
   padding: 10px;
   cursor: pointer;
 }

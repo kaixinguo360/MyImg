@@ -1,6 +1,15 @@
-<ngx-masonry class="masonry-container">
-  <ngxMasonryItem class="masonry-item" *ngFor="let img of images">
-    <div>
+<ngx-masonry
+  [useImagesLoaded]="false"
+  [options]="masonryOptions"
+  [style.width.px]="width"
+  #masonry
+  class="masonry-container">
+  <ngxMasonryItem
+    class="masonry-item"
+    [ngClass]="itemClass"
+    [style.width.px]="itemWidth"
+    *ngFor="let img of images">
+    <div class="image-container">
       <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
         <mat-icon>more_horiz</mat-icon>
       </button>
