@@ -5,9 +5,25 @@
         type="button"
         aria-label="Toggle sidenav"
         mat-icon-button
-        (click)="location.back()">
+        (click)="back()">
         <mat-icon aria-label="Side nav toggle icon">arrow_back</mat-icon>
       </button>
+      <div class="right-button-group">
+        <button
+          type="button"
+          aria-label="Sync"
+          mat-icon-button
+          (click)="reload()">
+          <mat-icon aria-label="Side nav toggle icon" style="color: white">sync</mat-icon>
+        </button>
+        <button
+          type="button"
+          aria-label="Home"
+          mat-icon-button
+          routerLink="album">
+          <mat-icon aria-label="Side nav toggle icon">home</mat-icon>
+        </button>
+      </div>
       <span>{{title}}</span>
     </mat-toolbar>
     <router-outlet></router-outlet>

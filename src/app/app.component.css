@@ -10,8 +10,15 @@
   background: inherit;
 }
 
-.mat-toolbar.mat-primary {
+.mat-toolbar {
   position: sticky;
   top: 0;
   z-index: 1;
+}
+
+.right-button-group {
+  position: absolute;
+  bottom: 10px;
+  right:  10px;
+  color: white;
 }

@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Location } from '@angular/common';
-
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -13,14 +9,16 @@ import { Observable } from 'rxjs';
 export class AppComponent implements OnInit {
   public title = '';
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches)
-    );
+  back(): void {
+    this.location.back();
+  }
+
+  reload(): void {
+    location.reload();
+  }
 
   constructor(
-    private breakpointObserver: BreakpointObserver,
-    public location: Location
+    private location: Location
   ) { }
 
   ngOnInit() { }
