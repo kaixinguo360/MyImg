@@ -9,11 +9,14 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { AlbumComponent } from './album/album.component';
+import { NgxMasonryModule } from 'ngx-masonry';
+import { ImageMasonryComponent } from './image-masonry/image-masonry.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AlbumComponent
+    AlbumComponent,
+    ImageMasonryComponent
   ],
   imports: [
     BrowserModule,
@@ -21,7 +24,8 @@ import { AlbumComponent } from './album/album.component';
     BrowserAnimationsModule,
     MyMaterialModuleModule,
     LayoutModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgxMasonryModule
   ],
   providers: [],
   bootstrap: [AppComponent]

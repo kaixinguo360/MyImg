@@ -5,7 +5,7 @@ import { FileService } from '../file.service';
 import { ConfigService } from '../config.service';
 import { AppComponent } from '../app.component';
 
-interface Image {
+export interface Image {
   title: string;
   time: number;
   src: string;
