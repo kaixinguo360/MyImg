@@ -17,7 +17,11 @@
         <button mat-menu-item>Download</button>
         <button mat-menu-item>Search</button>
       </mat-menu>
-      <img class="image" src="{{img.src}}" alt="{{img.title}}">
+      <img class="image"
+           [lazyLoad]="img.src"
+           [defaultImage]="loadingImage"
+           (onLoad)="masonry.layout()"
+           alt="{{img.title}}">
     </div>
   </ngxMasonryItem>
 </ngx-masonry>
