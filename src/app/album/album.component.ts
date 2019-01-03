@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { FileService } from '../file.service';
 import { ConfigService } from '../config.service';
+import { AppComponent } from '../app.component';
 
 interface Image {
   title: string;
@@ -84,13 +85,15 @@ export class AlbumComponent implements OnInit {
     this.getPath();
     this.getAlbums();
     this.getImages();
+    this.app.title = this.path;
   }
 
   constructor(
     private route: ActivatedRoute,
     private fileService: FileService,
     private config: ConfigService,
-    private router: Router
+    private router: Router,
+    private app: AppComponent
   ) { }
 
   ngOnInit() {
