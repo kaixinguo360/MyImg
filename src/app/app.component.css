@@ -16,9 +16,10 @@
   z-index: 1;
 }
 
-.right-button-group {
-  position: absolute;
-  bottom: 10px;
-  right:  10px;
-  color: white;
+.title {
+  margin: auto 0;
+  width: 100%;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
 }
