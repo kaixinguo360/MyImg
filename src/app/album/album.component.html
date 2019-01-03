@@ -1,45 +1,27 @@
 <mat-grid-list cols="1" rowHeight="64px" style="margin: 16px 8px 0 8px" *ngIf="albums.length > 0">
   <mat-grid-tile *ngFor="let album of albums" [colspan]="1" [rowspan]="1">
-    <mat-card class="dashboard-card-album" routerLink="/album" [queryParams]="{path:album.path}">
+    <mat-card class="card-album" routerLink="/album" [queryParams]="{path:album.path}">
       <mat-card-header>
         <mat-card-title>
           {{album.title}}
-          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" xPosition="before">
-            <button mat-menu-item>Expand</button>
-            <button mat-menu-item>Remove</button>
-          </mat-menu>
         </mat-card-title>
       </mat-card-header>
-      <mat-card-content class="dashboard-card-content">
-      </mat-card-content>
     </mat-card>
   </mat-grid-tile>
 </mat-grid-list>
 
 <mat-grid-list cols="2" rowHeight="350px" style="margin: 8px">
   <mat-grid-tile *ngFor="let img of images" [colspan]="1" [rowspan]="1">
-    <mat-card class="dashboard-card">
-      <mat-card-header>
-        <mat-card-title>
-          {{img.title}}
-          <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-            <mat-icon>more_vert</mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" xPosition="before">
-            <button mat-menu-item>Expand</button>
-            <button mat-menu-item>Remove</button>
-          </mat-menu>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content class="dashboard-card-content">
-        <div>
-          <img class="dashboard-img" src="{{img.src}}" alt="{{img.title}}">
-        </div>
-      </mat-card-content>
-    </mat-card>
+    <div class="card-image">
+      <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+        <mat-icon>more_horiz</mat-icon>
+      </button>
+      <mat-menu #menu="matMenu" xPosition="before">
+        <button mat-menu-item>Download</button>
+        <button mat-menu-item>Search</button>
+      </mat-menu>
+      <img class="image" src="{{img.src}}" alt="{{img.title}}">
+    </div>
   </mat-grid-tile>
 </mat-grid-list>
 

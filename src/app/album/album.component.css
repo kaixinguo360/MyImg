@@ -1,17 +1,11 @@
-.grid-container {
-  margin: 20px;
-}
-
-.dashboard-card {
-  position: absolute;
-  top:    8px;
-  left:   8px;
-  right:  8px;
-  bottom: 8px;
+.card-image {
+  position: relative;
+  max-width: 300px;
+  padding: 10px;
   cursor: pointer;
 }
 
-.dashboard-card-album {
+.card-album {
   position: absolute;
   top:    2px;
   left:   8px;
@@ -20,16 +14,14 @@
   cursor: pointer;
 }
 
+.image {
+  width: 100%;
+  border-radius: 10px;
+}
+
 .more-button {
   position: absolute;
-  top: 5px;
-  right: 10px;
-}
-
-.dashboard-card-content {
-  text-align: center;
-}
-
-.dashboard-img {
-  width: 100%;
+  bottom: 10px;
+  right:  10px;
+  color: white;
 }
