@@ -49,5 +49,6 @@ export class ImageMasonryComponent implements OnInit {
     } else {
       this.width = (Math.round(window.innerWidth / this.columnWidth) - 1) * this.columnWidth;
     }
+    this.masonry.layout();
   }
 }
