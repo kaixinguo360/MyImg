@@ -23,3 +23,7 @@
   text-overflow:ellipsis;
   white-space: nowrap;
 }
+
+.content-container {
+  height: calc(100% - 64px);
+}

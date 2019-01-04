@@ -6,6 +6,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 
 import { NgxMasonryModule } from 'ngx-masonry';
 import { LazyLoadImageModule, intersectionObserverPreset } from 'ng-lazyload-image';
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
 import { MyMaterialModuleModule } from './my-material-module.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -30,7 +31,8 @@ import { ImageMasonryComponent } from './image-masonry/image-masonry.component';
     NgxMasonryModule,
     LazyLoadImageModule.forRoot({
       preset: intersectionObserverPreset
-    })
+    }),
+    InfiniteScrollModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -64,8 +64,6 @@ export class AlbumComponent implements OnInit {
                 /jpg|jpeg|png|gif|bmp/.exec(e)
               );
             }
-          ).slice(
-            0, 20
           ).forEach(
             file => {
               this.images.push({
@@ -79,13 +77,17 @@ export class AlbumComponent implements OnInit {
       );
   }
 
-  update(): void {
+  updateContent(): void {
     this.images.length = 0;
     this.albums.length = 0;
     this.getPath();
     this.getAlbums();
     this.getImages();
     this.app.title = this.path;
+  }
+
+  onScroll() {
+    console.log('onScroll');
   }
 
   constructor(
@@ -98,12 +100,12 @@ export class AlbumComponent implements OnInit {
 
   ngOnInit() {
     this.getPath();
-    this.update();
+    this.updateContent();
     this.router.events
       .subscribe(
         event => {
           if (event instanceof  NavigationEnd) {
-            this.update();
+            this.updateContent();
           }
         }
       );

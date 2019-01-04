@@ -1,14 +1,22 @@
-<mat-grid-list cols="1" rowHeight="64px" style="margin: 16px 8px 0 8px" *ngIf="albums.length > 0">
-  <mat-grid-tile *ngFor="let album of albums" [colspan]="1" [rowspan]="1">
-    <mat-card class="card-album" routerLink="/album" [queryParams]="{path:album.path}">
-      <mat-card-header>
-        <mat-card-title>
-          {{album.title}}
-        </mat-card-title>
-      </mat-card-header>
-    </mat-card>
-  </mat-grid-tile>
-</mat-grid-list>
+<div
+  class="infinite-scroll"
+  infinite-scroll
+  [infiniteScrollDistance]="2"
+  [infiniteScrollThrottle]="300"
+  [scrollWindow]="false"
+  (scrolled)="onScroll()">
+  <mat-grid-list cols="1" rowHeight="64px" style="margin: 16px 8px 0 8px" *ngIf="albums.length > 0">
+    <mat-grid-tile *ngFor="let album of albums" [colspan]="1" [rowspan]="1">
+      <mat-card class="card-album" routerLink="/album" [queryParams]="{path:album.path}">
+        <mat-card-header>
+          <mat-card-title>
+            {{album.title}}
+          </mat-card-title>
+        </mat-card-header>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
 
-<app-image-masonry [images]="images"></app-image-masonry>
+  <app-image-masonry [images]="images"></app-image-masonry>
+</div>
 
