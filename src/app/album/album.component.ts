@@ -28,6 +28,8 @@ export class AlbumComponent implements OnInit {
   images: Image[] = [ ];
   albums: Album[] = [ ];
 
+  loadedImages: Image[] = [ ];
+
   getPath(): void {
     this.path = this.route.snapshot.queryParamMap.get('path');
     this.path = this.path === null ? '' : this.path;
@@ -73,6 +75,7 @@ export class AlbumComponent implements OnInit {
               });
             }
           );
+          this.loadMoreImage();
         }
       );
   }
@@ -80,14 +83,29 @@ export class AlbumComponent implements OnInit {
   updateContent(): void {
     this.images.length = 0;
     this.albums.length = 0;
+    this.loadedImages.length = 0;
     this.getPath();
     this.getAlbums();
     this.getImages();
     this.app.title = this.path;
   }
 
-  onScroll() {
-    console.log('onScroll');
+  loadMoreImage() {
+    let num;
+
+    if (this.loadedImages.length === 0) {
+      num = (this.images.length < 10) ? this.images.length : 10;
+    } else {
+      num = (this.images.length < 5) ? this.images.length : 5;
+    }
+
+    if (num === 0) {
+      return;
+    } else {
+      for (let i = 0; i < num; i++) {
+        this.loadedImages.push(this.images.shift());
+      }
+    }
   }
 
   constructor(
