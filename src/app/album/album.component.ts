@@ -22,9 +22,12 @@ interface Album {
   styleUrls: ['./album.component.css']
 })
 export class AlbumComponent implements OnInit {
-  root = this.config.getFileURLRoot();
-  path: string;
 
+  root = this.config.getFileURLRoot();
+  columnWidth = this.config.getColumnWidth();
+  mobileWidth = this.config.getMobileWidth();
+
+  path: string;
   images: Image[] = [ ];
   albums: Album[] = [ ];
 
@@ -58,7 +61,7 @@ export class AlbumComponent implements OnInit {
       .subscribe(
         files => {
           files.sort(
-            (a, b) => a.time - b.time
+            (a, b) => b.time - a.time
           ).filter(
             res => {
               const e: string = res.name.trim().split('.').pop();
@@ -93,11 +96,17 @@ export class AlbumComponent implements OnInit {
   loadMoreImage() {
     let num;
 
+    let column;
+    const isMobile = window.innerWidth < this.mobileWidth;
+    column = isMobile ? 2 : (Math.round(window.innerWidth / this.columnWidth) - 1);
+
     if (this.loadedImages.length === 0) {
-      num = (this.images.length < 10) ? this.images.length : 10;
+      num = column * 8;
     } else {
-      num = (this.images.length < 5) ? this.images.length : 5;
+      num = column * 4;
     }
+
+    num = (this.images.length < num) ? this.images.length : num;
 
     if (num === 0) {
       return;

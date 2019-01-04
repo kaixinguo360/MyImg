@@ -3,6 +3,20 @@
   overflow: scroll;
 }
 
+.card-album-header {
+  position: relative;
+}
+
+.card-album-title {
+  position: absolute;
+  left:  10px;
+  right: 10px;
+  overflow: hidden;
+  text-overflow:ellipsis;
+  word-break:keep-all;
+  white-space: nowrap;
+}
+
 .card-album {
   position: absolute;
   top:    2px;
