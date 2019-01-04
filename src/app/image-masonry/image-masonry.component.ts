@@ -11,11 +11,11 @@ import {ConfigService} from '../config.service';
 })
 export class ImageMasonryComponent implements OnInit {
 
-  loadingImage = '';
+  columnWidth = this.config.getColumnWidth();
+  mobileWidth = this.config.getMobileWidth();
+  loadingImage = this.config.getLoadingImageURL();
 
-  mobileWidth = 450;
-  columnWidth = 250;
-  width: number;
+  containerWidth: number;
   itemWidth: string;
 
   isMobile = window.innerWidth < this.mobileWidth;
@@ -38,16 +38,15 @@ export class ImageMasonryComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loadingImage = this.config.getLoadingImageURL();
     this.onResize();
   }
 
   @HostListener('window:resize')
   onResize() {
     if (this.isMobile) {
-      this.width = window.innerWidth;
+      this.containerWidth = window.innerWidth;
     } else {
-      this.width = (Math.round(window.innerWidth / this.columnWidth) - 1) * this.columnWidth;
+      this.containerWidth = (Math.round(window.innerWidth / this.columnWidth) - 1) * this.columnWidth;
     }
     this.masonry.layout();
   }

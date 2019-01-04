@@ -8,6 +8,8 @@ export class ConfigService {
   apiURL = '/api';
   fileURLRoot = '/file';
   loadingImageURL = '/loading.gif';
+  mobileWidth = 640;
+  columnWidth = 250;
 
   getApiURL(): string {
     return this.apiURL;
@@ -19,6 +21,14 @@ export class ConfigService {
 
   getLoadingImageURL(): string {
     return this.loadingImageURL;
+  }
+
+  getMobileWidth(): number {
+    return this.mobileWidth;
+  }
+
+  getColumnWidth(): number {
+    return this.columnWidth;
   }
 
   constructor() { }
