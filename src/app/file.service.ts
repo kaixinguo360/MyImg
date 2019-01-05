@@ -19,7 +19,8 @@ export interface Item {
 })
 export class FileService {
   url = this.config.getApiURL();
-  files: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
+  cache: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
+  running: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
 
   getFiles(path: string): Observable<Item[]> {
     return new Observable<Item[]>(
@@ -42,8 +43,10 @@ export class FileService {
   }
 
   getItems(path: string): Observable<Items> {
-    if (this.files.has(path)) {
-      return this.files.get(path);
+    if (this.cache.has(path)) {
+      return this.cache.get(path);
+    } else if (this.running.has(path)) {
+      return this.running.get(path);
     } else {
       const observable: Observable<Items> = this.http.get<Items>(this.url, {
         params: {
@@ -56,10 +59,28 @@ export class FileService {
         shareReplay(1)
       );
 
-      this.files.set(path, observable);
+      this.running.set(path, observable);
+
+      observable.subscribe(
+        res => {
+          console.log('Successful Get: ' + path);
+          console.log(res);
+          this.cache.set(path, observable);
+          this.running.delete(path);
+        },
+        error => {
+          console.log('Error Get: ' + path);
+          console.log(error);
+          this.running.delete(path);
+        }
+      );
 
       return observable;
     }
+  }
+
+  stopAll() {
+    this.running.clear();
   }
 
   constructor(
