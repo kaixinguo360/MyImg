@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { FileService } from '../file.service';
 import { ConfigService } from '../config.service';
 import { AppComponent } from '../app.component';
+import { ImageMasonryComponent } from '../image-masonry/image-masonry.component';
 
 export interface Image {
   title: string;
@@ -32,6 +33,8 @@ export class AlbumComponent implements OnInit {
   albums: Album[] = [ ];
 
   loadedImages: Image[] = [ ];
+
+  @ViewChild('imageMasonry') imageMasonry: ImageMasonryComponent;
 
   getPath(): void {
     this.path = this.route.snapshot.queryParamMap.get('path');
@@ -109,12 +112,15 @@ export class AlbumComponent implements OnInit {
     num = (this.images.length < num) ? this.images.length : num;
 
     if (num === 0) {
+      this.imageMasonry.layout();
       return;
     } else {
       for (let i = 0; i < num; i++) {
         this.loadedImages.push(this.images.shift());
       }
     }
+
+    this.imageMasonry.layout();
   }
 
   constructor(

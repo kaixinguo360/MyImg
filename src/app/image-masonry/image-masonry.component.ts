@@ -22,7 +22,7 @@ export class ImageMasonryComponent implements OnInit {
   itemClass = this.isMobile ? 'masonry-item-mobile' : 'masonry-item-desktop';
   @ViewChild('masonry') masonry: NgxMasonryComponent;
 
-  public masonryOptions: NgxMasonryOptions = {
+  masonryOptions: NgxMasonryOptions = {
     transitionDuration: '0.2s',
     gutter: 0,
     columnWidth: this.isMobile ? '.masonry-item-mobile' : 250,
@@ -32,6 +32,10 @@ export class ImageMasonryComponent implements OnInit {
   };
 
   @Input() images: Image[];
+
+  public layout() {
+    this.masonry.layout();
+  }
 
   constructor(
     private config: ConfigService
