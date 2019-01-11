@@ -27,3 +27,7 @@
 .content-container {
   height: calc(100% - 64px);
 }
+
+.menu-select {
+  font-weight:bold;
+}

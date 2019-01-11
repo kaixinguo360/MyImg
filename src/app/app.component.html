@@ -12,17 +12,32 @@
       <div>
         <button
           type="button"
+          aria-label="Sort"
+          mat-icon-button
+          [matMenuTriggerFor]="sortMenu">
+          <mat-icon aria-label="Sort" style="color: white">sort</mat-icon>
+        </button>
+        <mat-menu #sortMenu="matMenu" xPosition="before">
+          <button mat-menu-item
+                  *ngFor="let item of Orders"
+                  [class.menu-select]="item.isSelected"
+                  (click)="changeOrder(item.order)">
+            {{item.title}}
+          </button>
+        </mat-menu>
+        <button
+          type="button"
           aria-label="Sync"
           mat-icon-button
           (click)="reload()">
-          <mat-icon aria-label="Side nav toggle icon" style="color: white">sync</mat-icon>
+          <mat-icon aria-label="Sync" style="color: white">sync</mat-icon>
         </button>
         <button
           type="button"
           aria-label="Home"
           mat-icon-button
           routerLink="album">
-          <mat-icon aria-label="Side nav toggle icon">home</mat-icon>
+          <mat-icon aria-label="Home">home</mat-icon>
         </button>
       </div>
     </mat-toolbar>
