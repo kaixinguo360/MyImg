@@ -13,7 +13,7 @@ export class ConfigService {
   mobileWidth = 640;
   columnWidth = 250;
 
-  defaultOrder = Order.TIME_ASC;
+  defaultOrder = Order.TIME_DESC;
 
   getApiURL(): string {
     return this.apiURL;

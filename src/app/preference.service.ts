@@ -13,14 +13,14 @@ export class PreferenceService {
   public getOrder(): Order {
     const order = this.getPreference('order', this.defaultOrderBy);
     switch (order) {
-      case Order.TIME_ASC:
-        return Order.TIME_ASC;
       case Order.TIME_DESC:
         return Order.TIME_DESC;
-      case Order.NAME_ASC:
-        return Order.NAME_ASC;
+      case Order.TIME_ASC:
+        return Order.TIME_ASC;
       case Order.NAME_DESC:
         return Order.NAME_DESC;
+      case Order.NAME_ASC:
+        return Order.NAME_ASC;
       case Order.RANDOM:
         return Order.RANDOM;
       default:

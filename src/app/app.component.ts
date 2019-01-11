@@ -42,10 +42,10 @@ export class AppComponent implements OnInit {
   ) {
     const currentOrder = preference.getOrder();
     this.Orders  = [
-      { title: 'Time ↓', isSelected: (currentOrder === Order.TIME_ASC) , order: Order.TIME_ASC },
-      { title: 'Time ↑', isSelected: (currentOrder === Order.TIME_DESC) , order: Order.TIME_DESC },
-      { title: 'Name ↓', isSelected: (currentOrder === Order.NAME_ASC) , order: Order.NAME_ASC },
-      { title: 'Name ↑', isSelected: (currentOrder === Order.NAME_DESC) , order: Order.NAME_DESC },
+      { title: 'Time ↓', isSelected: (currentOrder === Order.TIME_DESC) , order: Order.TIME_DESC },
+      { title: 'Time ↑', isSelected: (currentOrder === Order.TIME_ASC) , order: Order.TIME_ASC },
+      { title: 'Name ↓', isSelected: (currentOrder === Order.NAME_DESC) , order: Order.NAME_DESC },
+      { title: 'Name ↑', isSelected: (currentOrder === Order.NAME_ASC) , order: Order.NAME_ASC },
       { title: 'Random', isSelected: (currentOrder === Order.RANDOM) , order: Order.RANDOM }
     ];
   }

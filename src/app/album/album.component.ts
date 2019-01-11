@@ -1,10 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { FileService } from '../file.service';
 import { ConfigService } from '../config.service';
 import { AppComponent } from '../app.component';
 import { ImageMasonryComponent } from '../image-masonry/image-masonry.component';
+import { Order } from '../order';
+import { PreferenceService } from '../preference.service';
 
 export interface Image {
   title: string;
@@ -27,6 +29,7 @@ export class AlbumComponent implements OnInit {
   root = this.config.getFileURLRoot();
   columnWidth = this.config.getColumnWidth();
   mobileWidth = this.config.getMobileWidth();
+  order: Order = this.preference.getOrder();
 
   path: string;
   images: Image[] = [ ];
@@ -46,7 +49,7 @@ export class AlbumComponent implements OnInit {
       .subscribe(
         dirs => {
           dirs.sort(
-            (a, b) => a.time - b.time
+            (a, b) => a.name < b.name ? 1 : a.name > b.name ? -1 : 0
           ).forEach(
             dir => {
               this.albums.push({
@@ -64,7 +67,20 @@ export class AlbumComponent implements OnInit {
       .subscribe(
         files => {
           files.sort(
-            (a, b) => b.time - a.time
+            (a, b) => {
+              switch (this.order) {
+                case Order.TIME_DESC:
+                  return b.time - a.time;
+                case Order.TIME_ASC:
+                  return a.time - b.time;
+                case Order.NAME_DESC:
+                  return a.name < b.name ? 1 : a.name > b.name ? -1 : 0;
+                case Order.NAME_ASC:
+                  return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+                case Order.RANDOM:
+                  return Math.random() > 0.5 ? -1 : 1;
+              }
+            }
           ).filter(
             res => {
               const e: string = res.name.trim().split('.').pop();
@@ -128,7 +144,8 @@ export class AlbumComponent implements OnInit {
     private fileService: FileService,
     private config: ConfigService,
     private router: Router,
-    private app: AppComponent
+    private app: AppComponent,
+    private preference: PreferenceService
   ) { }
 
   ngOnInit() {
