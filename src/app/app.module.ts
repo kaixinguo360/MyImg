@@ -1,12 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ServiceWorkerModule } from '@angular/service-worker';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
 
 import { NgxMasonryModule } from 'ngx-masonry';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 
+import { environment } from '../environments/environment';
 import { MyMaterialModuleModule } from './my-material-module.module';
 import { AppRoutingModule } from './app-routing.module';
 
@@ -24,6 +26,7 @@ import { ImageMasonryComponent } from './image-masonry/image-masonry.component';
     BrowserModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     MyMaterialModuleModule,
     LayoutModule,
     AppRoutingModule,
