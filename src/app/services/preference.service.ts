@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Order } from './order';
+import { Order } from '../order';
 import { ConfigService } from './config.service';
 
 @Injectable({

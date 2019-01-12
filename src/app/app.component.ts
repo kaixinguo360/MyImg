@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 
-import { FileService } from './file.service';
-import { PreferenceService } from './preference.service';
+import { FileService } from './services/file.service';
+import { PreferenceService } from './services/preference.service';
 import { Order } from './order';
 
 class OrderMenuItem {

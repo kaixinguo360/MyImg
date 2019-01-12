@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
-import { FileService } from '../file.service';
-import { ConfigService } from '../config.service';
+import { FileService } from '../services/file.service';
+import { ConfigService } from '../services/config.service';
 import { AppComponent } from '../app.component';
 import { ImageMasonryComponent } from '../image-masonry/image-masonry.component';
 import { Order } from '../order';
-import { PreferenceService } from '../preference.service';
+import { PreferenceService } from '../services/preference.service';
 
 export interface Image {
   title: string;

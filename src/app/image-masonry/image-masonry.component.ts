@@ -2,7 +2,7 @@ import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core
 import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
 
 import { Image } from '../album/album.component';
-import {ConfigService} from '../config.service';
+import {ConfigService} from '../services/config.service';
 
 @Component({
   selector: 'app-image-masonry',
