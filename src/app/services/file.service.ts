@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
 import { appConfig } from '../app-config';
+import { LoggerService } from './logger.service';
 
 export interface Items {
   files: Item[];
@@ -64,14 +65,14 @@ export class FileService {
 
       observable.subscribe(
         res => {
-          console.log('Successful Get: ' + path);
-          console.log(res);
+          this.logger.log('Successful Get: ' + path);
+          this.logger.log(res);
           this.cache.set(path, observable);
           this.running.delete(path);
         },
         error => {
-          console.log('Error Get: ' + path);
-          console.log(error);
+          this.logger.log('Error Get: ' + path);
+          this.logger.log(error);
           this.running.delete(path);
         }
       );
@@ -85,6 +86,7 @@ export class FileService {
   }
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private logger: LoggerService
   ) { }
 }
