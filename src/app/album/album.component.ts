@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
+import { appConfig } from '../app-config';
 import { FileService } from '../services/file.service';
-import { ConfigService } from '../services/config.service';
 import { AppComponent } from '../app.component';
 import { ImageMasonryComponent } from '../image-masonry/image-masonry.component';
 import { Order } from '../order';
@@ -26,9 +26,9 @@ interface Album {
 })
 export class AlbumComponent implements OnInit {
 
-  root = this.config.getFileURLRoot();
-  columnWidth = this.config.getColumnWidth();
-  mobileWidth = this.config.getMobileWidth();
+  root = appConfig.fileURLRoot;
+  columnWidth = appConfig.columnWidth;
+  mobileWidth = appConfig.mobileWidth;
   order: Order = this.preference.getOrder();
 
   path: string;
@@ -142,7 +142,6 @@ export class AlbumComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private fileService: FileService,
-    private config: ConfigService,
     private router: Router,
     private app: AppComponent,
     private preference: PreferenceService

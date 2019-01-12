@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ConfigService } from './config.service';
 import { shareReplay } from 'rxjs/operators';
+
+import { appConfig } from '../app-config';
 
 export interface Items {
   files: Item[];
@@ -18,7 +19,7 @@ export interface Item {
   providedIn: 'root'
 })
 export class FileService {
-  url = this.config.getApiURL();
+  url = appConfig.apiURL;
   cache: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
   running: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
 
@@ -84,7 +85,6 @@ export class FileService {
   }
 
   constructor(
-    private http: HttpClient,
-    private config: ConfigService
+    private http: HttpClient
   ) { }
 }

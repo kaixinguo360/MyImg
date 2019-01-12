@@ -1,8 +1,8 @@
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
 
+import { appConfig } from '../app-config';
 import { Image } from '../album/album.component';
-import {ConfigService} from '../services/config.service';
 
 @Component({
   selector: 'app-image-masonry',
@@ -11,9 +11,8 @@ import {ConfigService} from '../services/config.service';
 })
 export class ImageMasonryComponent implements OnInit {
 
-  columnWidth = this.config.getColumnWidth();
-  mobileWidth = this.config.getMobileWidth();
-  loadingImage = this.config.getLoadingImageURL();
+  columnWidth = appConfig.columnWidth;
+  mobileWidth = appConfig.mobileWidth;
 
   containerWidth: number;
   itemWidth: string;
@@ -37,9 +36,7 @@ export class ImageMasonryComponent implements OnInit {
     this.masonry.layout();
   }
 
-  constructor(
-    private config: ConfigService
-  ) { }
+  constructor() { }
 
   ngOnInit() {
     this.onResize();

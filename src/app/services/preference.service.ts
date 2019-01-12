@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 
+import { appConfig } from '../app-config';
 import { Order } from '../order';
-import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PreferenceService {
 
-  defaultOrderBy = this.config.getDefaultOrder();
+  defaultOrder = appConfig.defaultOrder;
 
   public getOrder(): Order {
-    const order = this.getPreference('order', this.defaultOrderBy);
+    const order = this.getPreference('order', this.defaultOrder);
     switch (order) {
       case Order.TIME_DESC:
         return Order.TIME_DESC;
@@ -24,14 +24,14 @@ export class PreferenceService {
       case Order.RANDOM:
         return Order.RANDOM;
       default:
-        this.setPreference('order', this.defaultOrderBy);
-        return this.defaultOrderBy;
+        this.setPreference('order', this.defaultOrder);
+        return this.defaultOrder;
     }
   }
 
   public setOrder(order: Order): void {
     if (order == null) {
-      this.setPreference('order', this.defaultOrderBy);
+      this.setPreference('order', this.defaultOrder);
     } else {
       this.setPreference('order', order);
     }
@@ -51,7 +51,5 @@ export class PreferenceService {
     localStorage.setItem(key, value);
   }
 
-  constructor(
-    private config: ConfigService
-  ) { }
+  constructor() { }
 }
