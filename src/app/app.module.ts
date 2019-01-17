@@ -16,12 +16,14 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AlbumComponent } from './album/album.component';
 import { ImageMasonryComponent } from './image-masonry/image-masonry.component';
+import { ImageViewerComponent } from './image-viewer/image-viewer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AlbumComponent,
-    ImageMasonryComponent
+    ImageMasonryComponent,
+    ImageViewerComponent
   ],
   imports: [
     BrowserModule,
@@ -36,6 +38,9 @@ import { ImageMasonryComponent } from './image-masonry/image-masonry.component';
     NgForageModule.forRoot()
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    ImageViewerComponent
+  ]
 })
 export class AppModule { }

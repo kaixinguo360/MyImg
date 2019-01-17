@@ -8,7 +8,7 @@
     class="masonry-item"
     [ngClass]="itemClass"
     [style.width.px]="itemWidth"
-    *ngFor="let img of images">
+    *ngFor="let img of images; index as index">
     <div class="image-container">
       <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
         <mat-icon>more_horiz</mat-icon>
@@ -20,6 +20,7 @@
       <img class="image"
            [src]="img.src"
            (load)="layout()"
+           (click)="openImageViewer(index)"
            alt="{{img.title}}">
     </div>
   </ngxMasonryItem>

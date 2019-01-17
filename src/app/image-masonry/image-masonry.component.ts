@@ -1,8 +1,10 @@
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material';
 import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
 
 import { appConfig } from '../app-config';
 import { Image } from '../album/album.component';
+import { ImageViewerComponent } from '../image-viewer/image-viewer.component';
 
 @Component({
   selector: 'app-image-masonry',
@@ -36,7 +38,20 @@ export class ImageMasonryComponent implements OnInit {
     this.masonry.layout();
   }
 
-  constructor() { }
+  public openImageViewer(index: number) {
+    this.dialog.open(
+      ImageViewerComponent,
+      {
+        data: {
+          index: index
+        }
+      }
+    );
+  }
+
+  constructor(
+    private dialog: MatDialog
+  ) { }
 
   ngOnInit() {
     this.onResize();
