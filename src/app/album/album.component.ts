@@ -48,9 +48,7 @@ export class AlbumComponent implements OnInit {
     this.fileService.getDirs(this.path)
       .subscribe(
         dirs => {
-          dirs.sort(
-            (a, b) => a.name < b.name ? 1 : a.name > b.name ? -1 : 0
-          ).forEach(
+          dirs.forEach(
             dir => {
               this.albums.push({
                 title: dir.name,
@@ -66,29 +64,7 @@ export class AlbumComponent implements OnInit {
     this.fileService.getFiles(this.path)
       .subscribe(
         files => {
-          files.sort(
-            (a, b) => {
-              switch (this.order) {
-                case Order.TIME_DESC:
-                  return b.time - a.time;
-                case Order.TIME_ASC:
-                  return a.time - b.time;
-                case Order.NAME_DESC:
-                  return a.name < b.name ? 1 : a.name > b.name ? -1 : 0;
-                case Order.NAME_ASC:
-                  return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
-                case Order.RANDOM:
-                  return Math.random() > 0.5 ? -1 : 1;
-              }
-            }
-          ).filter(
-            res => {
-              const e: string = res.name.trim().split('.').pop();
-              return (
-                /jpg|jpeg|png|gif|bmp/.exec(e)
-              );
-            }
-          ).forEach(
+          files.forEach(
             file => {
               this.images.push({
                 title: file.name,

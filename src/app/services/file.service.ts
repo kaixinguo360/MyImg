@@ -5,6 +5,8 @@ import { shareReplay } from 'rxjs/operators';
 
 import { appConfig } from '../app-config';
 import { LoggerService } from './logger.service';
+import { Order } from '../order';
+import { PreferenceService } from './preference.service';
 
 export interface Items {
   files: Item[];
@@ -21,6 +23,8 @@ export interface Item {
 })
 export class FileService {
   url = appConfig.apiURL;
+  order: Order = this.preference.getOrder();
+
   cache: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
   running: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
 
@@ -28,7 +32,31 @@ export class FileService {
     return new Observable<Item[]>(
       observable => {
         this.getItems(path).subscribe(
-          items => observable.next(items.files)
+          items => {
+            observable.next(items.files.sort(
+              (a, b) => {
+                switch (this.order) {
+                  case Order.TIME_DESC:
+                    return b.time - a.time;
+                  case Order.TIME_ASC:
+                    return a.time - b.time;
+                  case Order.NAME_DESC:
+                    return a.name < b.name ? 1 : a.name > b.name ? -1 : 0;
+                  case Order.NAME_ASC:
+                    return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+                  case Order.RANDOM:
+                    return Math.random() > 0.5 ? -1 : 1;
+                }
+              }
+            ).filter(
+              res => {
+                const e: string = res.name.trim().split('.').pop();
+                return (
+                  /jpg|jpeg|png|gif|bmp/.exec(e)
+                );
+              }
+            ));
+          }
         );
       }
     );
@@ -38,7 +66,9 @@ export class FileService {
     return new Observable<Item[]>(
       observable => {
         this.getItems(path).subscribe(
-          items => observable.next(items.dirs)
+          items => observable.next(items.dirs.sort(
+            (a, b) => a.name < b.name ? 1 : a.name > b.name ? -1 : 0
+          ))
         );
       }
     );
@@ -87,6 +117,7 @@ export class FileService {
 
   constructor(
     private http: HttpClient,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private preference: PreferenceService
   ) { }
 }
