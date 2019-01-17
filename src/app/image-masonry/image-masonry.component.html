@@ -6,9 +6,8 @@
   class="masonry-container">
   <ngxMasonryItem
     class="masonry-item"
-    [ngClass]="itemClass"
-    [style.width.px]="itemWidth"
-    *ngFor="let img of images; index as index">
+    [ngClass]="isMobile ? 'masonry-item-mobile' : 'masonry-item-desktop'"
+    *ngFor="let img of loadedImages; index as index">
     <div class="image-container">
       <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
         <mat-icon>more_horiz</mat-icon>
@@ -19,7 +18,7 @@
       </mat-menu>
       <img class="image"
            [src]="img.src"
-           (load)="layout()"
+           (load)="updateLayout()"
            (click)="openImageViewer(index)"
            alt="{{img.title}}">
     </div>

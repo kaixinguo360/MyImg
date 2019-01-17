@@ -4,7 +4,7 @@
   [infiniteScrollDistance]="0"
   [infiniteScrollThrottle]="300"
   [scrollWindow]="false"
-  (scrolled)="loadMoreImage()">
+  (scrolled)="imageMasonry.loadMoreImage()">
   <mat-grid-list cols="1" rowHeight="64px" style="margin: 16px 8px 0 8px" *ngIf="albums.length > 0">
     <mat-grid-tile *ngFor="let album of albums" [colspan]="1" [rowspan]="1">
       <mat-card class="card-album" routerLink="/album" [queryParams]="{path:album.path}">
@@ -19,6 +19,6 @@
     </mat-grid-tile>
   </mat-grid-list>
 
-  <app-image-masonry #imageMasonry [images]="loadedImages"></app-image-masonry>
+  <app-image-masonry #imageMasonry [path]="path"></app-image-masonry>
 </div>
 

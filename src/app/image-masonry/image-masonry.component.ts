@@ -1,10 +1,12 @@
 import { Component, HostListener, Input, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material';
+import { BehaviorSubject } from 'rxjs';
 import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
 
 import { appConfig } from '../app-config';
 import { Image } from '../album/album.component';
 import { ImageViewerComponent } from '../image-viewer/image-viewer.component';
+import { FileService } from '../services/file.service';
 
 @Component({
   selector: 'app-image-masonry',
@@ -13,16 +15,16 @@ import { ImageViewerComponent } from '../image-viewer/image-viewer.component';
 })
 export class ImageMasonryComponent implements OnInit {
 
+  root = appConfig.fileURLRoot;
   columnWidth = appConfig.columnWidth;
-  mobileWidth = appConfig.mobileWidth;
+  isMobile = window.innerWidth < appConfig.mobileWidth;
 
   containerWidth: number;
-  itemWidth: string;
+  loadedImages: Image[] = [];
+  images: Image[] = [];
 
-  isMobile = window.innerWidth < this.mobileWidth;
-  itemClass = this.isMobile ? 'masonry-item-mobile' : 'masonry-item-desktop';
-  @ViewChild('masonry') masonry: NgxMasonryComponent;
-
+  @ViewChild('masonry')
+  masonry: NgxMasonryComponent;
   masonryOptions: NgxMasonryOptions = {
     transitionDuration: '0.2s',
     gutter: 0,
@@ -32,10 +34,43 @@ export class ImageMasonryComponent implements OnInit {
     percentPosition: this.isMobile
   };
 
-  @Input() images: Image[];
+  private _path = new BehaviorSubject<string>(null);
 
-  public layout() {
+  @Input()
+  set path(value) {
+    this._path.next(value);
+  }
+  get path() {
+    return this._path.getValue();
+  }
+
+  public updateLayout() {
     this.masonry.layout();
+  }
+
+  public loadMoreImage() {
+    let num;
+
+    const column = this.isMobile ? 2 : (Math.round(window.innerWidth / this.columnWidth) - 1);
+
+    if (this.loadedImages.length === 0) {
+      num = column * 8;
+    } else {
+      num = column * 4;
+    }
+
+    num = (this.images.length < num) ? this.images.length : num;
+
+    if (num === 0) {
+      this.updateLayout();
+      return;
+    } else {
+      for (let i = 0; i < num; i++) {
+        this.loadedImages.push(this.images.shift());
+      }
+    }
+
+    this.updateLayout();
   }
 
   public openImageViewer(index: number) {
@@ -43,18 +78,45 @@ export class ImageMasonryComponent implements OnInit {
       ImageViewerComponent,
       {
         data: {
+          path: this.path,
           index: index
         }
       }
     );
   }
 
+  private updateImages(path: string): void {
+    this.fileService.getFiles(path)
+      .subscribe(
+        files => {
+          files.forEach(
+            file => {
+              this.images.push({
+                title: file.name,
+                time: file.time,
+                src: this.root + '/' + this.path + '/' + file.name
+              });
+            }
+          );
+          this.loadMoreImage();
+        }
+      );
+  }
+
   constructor(
+    private fileService: FileService,
     private dialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.onResize();
+    this._path.subscribe(
+      path => {
+        this.loadedImages.length = 0;
+        this.images.length = 0;
+        this.updateImages(path);
+      }
+    );
   }
 
   @HostListener('window:resize')
