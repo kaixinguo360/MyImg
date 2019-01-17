@@ -1,20 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
-import { FileService } from '../services/file.service';
+import { Album, FileService } from '../services/file.service';
 import { AppComponent } from '../app.component';
 import { ImageMasonryComponent } from '../image-masonry/image-masonry.component';
-
-export interface Image {
-  title: string;
-  time: number;
-  src: string;
-}
-
-interface Album {
-  title: string;
-  path: string;
-}
 
 @Component({
   selector: 'app-album',
@@ -34,26 +23,9 @@ export class AlbumComponent implements OnInit {
     this.app.title = this.path;
   }
 
-  updateAlbums(): void {
-    this.fileService.getDirs(this.path)
-      .subscribe(
-        dirs => {
-          dirs.forEach(
-            dir => {
-              this.albums.push({
-                title: dir.name,
-                path: (this.path === '') ? dir.name : (this.path + '/' + dir.name)
-              });
-            }
-          );
-        }
-      );
-  }
-
   updateContent(): void {
     this.updatePath();
-    this.albums.length = 0;
-    this.updateAlbums();
+    this.fileService.getAlbums(this.path, this.albums);
   }
 
   constructor(
@@ -64,7 +36,6 @@ export class AlbumComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.updatePath();
     this.updateContent();
     this.router.events
       .subscribe(

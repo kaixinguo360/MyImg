@@ -4,9 +4,8 @@ import { BehaviorSubject } from 'rxjs';
 import { NgxMasonryComponent, NgxMasonryOptions } from 'ngx-masonry';
 
 import { appConfig } from '../app-config';
-import { Image } from '../album/album.component';
 import { ImageViewerComponent } from '../image-viewer/image-viewer.component';
-import { FileService } from '../services/file.service';
+import { FileService, Image } from '../services/file.service';
 
 @Component({
   selector: 'app-image-masonry',
@@ -15,7 +14,6 @@ import { FileService } from '../services/file.service';
 })
 export class ImageMasonryComponent implements OnInit {
 
-  root = appConfig.fileURLRoot;
   columnWidth = appConfig.columnWidth;
   isMobile = window.innerWidth < appConfig.mobileWidth;
 
@@ -85,24 +83,6 @@ export class ImageMasonryComponent implements OnInit {
     );
   }
 
-  private updateImages(path: string): void {
-    this.fileService.getFiles(path)
-      .subscribe(
-        files => {
-          files.forEach(
-            file => {
-              this.images.push({
-                title: file.name,
-                time: file.time,
-                src: this.root + '/' + this.path + '/' + file.name
-              });
-            }
-          );
-          this.loadMoreImage();
-        }
-      );
-  }
-
   constructor(
     private fileService: FileService,
     private dialog: MatDialog
@@ -114,7 +94,9 @@ export class ImageMasonryComponent implements OnInit {
       path => {
         this.loadedImages.length = 0;
         this.images.length = 0;
-        this.updateImages(path);
+        this.fileService.getImages(path, this.images,
+          () => this.loadMoreImage()
+        );
       }
     );
   }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
+import { isFunction } from 'util';
 
 import { appConfig } from '../app-config';
 import { LoggerService } from './logger.service';
@@ -18,17 +19,29 @@ export interface Item {
   time: number;
 }
 
+export interface Image {
+  title: string;
+  time: number;
+  src: string;
+}
+
+export interface Album {
+  title: string;
+  path: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class FileService {
   url = appConfig.apiURL;
+  root = appConfig.fileURLRoot;
   order: Order = this.preference.getOrder();
 
   cache: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
   running: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
 
-  getFiles(path: string): Observable<Item[]> {
+  private getFiles(path: string): Observable<Item[]> {
     return new Observable<Item[]>(
       observable => {
         this.getItems(path).subscribe(
@@ -62,7 +75,7 @@ export class FileService {
     );
   }
 
-  getDirs(path: string): Observable<Item[]> {
+  private getDirs(path: string): Observable<Item[]> {
     return new Observable<Item[]>(
       observable => {
         this.getItems(path).subscribe(
@@ -74,7 +87,7 @@ export class FileService {
     );
   }
 
-  getItems(path: string): Observable<Items> {
+  private getItems(path: string): Observable<Items> {
     if (this.cache.has(path)) {
       return this.cache.get(path);
     } else if (this.running.has(path)) {
@@ -111,7 +124,46 @@ export class FileService {
     }
   }
 
-  stopAll() {
+  public getAlbums(path: string, albums: Album[], onLoad?: () => void): void {
+    albums.length = 0;
+    this.getDirs(path).subscribe(
+      dirs => {
+        dirs.forEach(
+          dir => {
+            albums.push({
+              title: dir.name,
+              path: (path === '') ? dir.name : (path + '/' + dir.name)
+            });
+          }
+        );
+        if (isFunction(onLoad)) {
+          onLoad();
+        }
+      }
+    );
+  }
+
+  public getImages(path: string, images: Image[], onLoad?: () => void): void {
+    images.length = 0;
+    this.getFiles(path).subscribe(
+      files => {
+        files.forEach(
+          file => {
+            images.push({
+              title: file.name,
+              time: file.time,
+              src: this.root + '/' + path + '/' + file.name
+            });
+          }
+        );
+        if (isFunction(onLoad)) {
+          onLoad();
+        }
+      }
+    );
+  }
+
+  public stopAll() {
     this.running.clear();
   }
 
