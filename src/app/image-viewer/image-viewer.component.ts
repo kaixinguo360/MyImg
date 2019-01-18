@@ -1,6 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
+import { FileService, Image } from '../services/file.service';
+
 @Component({
   selector: 'app-image-viewer',
   templateUrl: './image-viewer.component.html',
@@ -8,14 +10,21 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 })
 export class ImageViewerComponent implements OnInit {
 
-  constructor(
-    public dialogRef: MatDialogRef<ImageViewerComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
-  ) {
-    console.log(data);
+  images: Image[] = [];
+  index = this.data.index;
+
+  closeThisDialog(): void {
+    this.dialogRef.close();
   }
 
+  constructor(
+    private fileService: FileService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialogRef: MatDialogRef<ImageViewerComponent>
+  ) {}
+
   ngOnInit() {
+    this.fileService.getImages(this.data.path, this.images);
   }
 
 }

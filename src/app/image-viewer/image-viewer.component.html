@@ -1,12 +1,10 @@
-<h2 mat-dialog-title>Title</h2>
-<mat-dialog-content>
-  {{data.index}}
-  <p>
-    image-viewer works!
-  </p>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button mat-dialog-close>No</button>
-  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
-  <button mat-button [mat-dialog-close]="true">Yes</button>
-</mat-dialog-actions>
+<div class="dialog-panel">
+  <div>
+    <img class="dialog-image" [src]="images[index].src" alt="Image" (click)="closeThisDialog()">
+  </div>
+  <div class="dialog-actions">
+    <button mat-raised-button class="dialog-button" (click)="index = (index - 1 + images.length) % images.length">Prev</button>
+    <button mat-raised-button class="dialog-button" mat-dialog-close>Close</button>
+    <button mat-raised-button class="dialog-button" (click)="index = (index + 1 + images.length) % images.length">Next</button>
+  </div>
+</div>

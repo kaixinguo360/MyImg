@@ -75,6 +75,10 @@ export class ImageMasonryComponent implements OnInit {
     this.dialog.open(
       ImageViewerComponent,
       {
+        width: '100%',
+        height: '100%',
+        maxWidth: 'none',
+        autoFocus: false,
         data: {
           path: this.path,
           index: index

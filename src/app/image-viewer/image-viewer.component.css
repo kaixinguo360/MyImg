@@ -1,0 +1,19 @@
+.dialog-panel {
+  margin-bottom: 42px;
+}
+
+.dialog-image {
+  max-width: 100%;
+  cursor: pointer;
+}
+
+.dialog-actions {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  bottom: 18px;
+}
+
+.dialog-button {
+  margin: 0 9px;
+}
