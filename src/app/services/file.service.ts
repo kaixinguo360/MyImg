@@ -41,52 +41,6 @@ export class FileService {
   cache: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
   running: Map<string, Observable<Items>> = new Map<string, Observable<Items>>();
 
-  private getFiles(path: string): Observable<Item[]> {
-    return new Observable<Item[]>(
-      observable => {
-        this.getItems(path).subscribe(
-          items => {
-            observable.next(items.files.sort(
-              (a, b) => {
-                switch (this.order) {
-                  case Order.TIME_DESC:
-                    return b.time - a.time;
-                  case Order.TIME_ASC:
-                    return a.time - b.time;
-                  case Order.NAME_DESC:
-                    return a.name < b.name ? 1 : a.name > b.name ? -1 : 0;
-                  case Order.NAME_ASC:
-                    return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
-                  case Order.RANDOM:
-                    return Math.random() > 0.5 ? -1 : 1;
-                }
-              }
-            ).filter(
-              res => {
-                const e: string = res.name.trim().split('.').pop();
-                return (
-                  /jpg|jpeg|png|gif|bmp/.exec(e)
-                );
-              }
-            ));
-          }
-        );
-      }
-    );
-  }
-
-  private getDirs(path: string): Observable<Item[]> {
-    return new Observable<Item[]>(
-      observable => {
-        this.getItems(path).subscribe(
-          items => observable.next(items.dirs.sort(
-            (a, b) => a.name < b.name ? 1 : a.name > b.name ? -1 : 0
-          ))
-        );
-      }
-    );
-  }
-
   private getItems(path: string): Observable<Items> {
     if (this.cache.has(path)) {
       return this.cache.get(path);
@@ -120,15 +74,47 @@ export class FileService {
         }
       );
 
+      observable.subscribe(
+        items => {
+          items.dirs.sort(
+            (a, b) => a.name < b.name ? 1 : a.name > b.name ? -1 : 0
+          );
+          items.files.sort(
+            (a, b) => {
+              switch (this.order) {
+                case Order.TIME_DESC:
+                  return b.time - a.time;
+                case Order.TIME_ASC:
+                  return a.time - b.time;
+                case Order.NAME_DESC:
+                  return a.name < b.name ? 1 : a.name > b.name ? -1 : 0;
+                case Order.NAME_ASC:
+                  return a.name < b.name ? -1 : a.name > b.name ? 1 : 0;
+                case Order.RANDOM:
+                  return Math.random() > 0.5 ? -1 : 1;
+              }
+            }
+          );
+          items.files = items.files.filter(
+            res => {
+              const e: string = res.name.trim().split('.').pop();
+              return (
+                /jpg|jpeg|png|gif|bmp/.exec(e)
+              );
+            }
+          );
+        }
+      );
+
       return observable;
     }
   }
 
   public getAlbums(path: string, albums: Album[], onLoad?: () => void): void {
     albums.length = 0;
-    this.getDirs(path).subscribe(
-      dirs => {
-        dirs.forEach(
+    this.getItems(path).subscribe(
+      items => {
+        items.dirs.forEach(
           dir => {
             albums.push({
               title: dir.name,
@@ -145,9 +131,9 @@ export class FileService {
 
   public getImages(path: string, images: Image[], onLoad?: () => void): void {
     images.length = 0;
-    this.getFiles(path).subscribe(
-      files => {
-        files.forEach(
+    this.getItems(path).subscribe(
+      items => {
+        items.files.forEach(
           file => {
             images.push({
               title: file.name,
