@@ -18,6 +18,7 @@ export class ImageMasonryComponent implements OnInit {
   isMobile = window.innerWidth < appConfig.mobileWidth;
 
   containerWidth: number;
+  imagesNum: number;
   loadedImages: Image[] = [];
   images: Image[] = [];
 
@@ -99,7 +100,10 @@ export class ImageMasonryComponent implements OnInit {
         this.loadedImages.length = 0;
         this.images.length = 0;
         this.fileService.getImages(path, this.images,
-          () => this.loadMoreImage()
+          () => {
+            this.imagesNum = this.images.length;
+            this.loadMoreImage();
+          }
         );
       }
     );
