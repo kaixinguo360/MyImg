@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { HttpClientModule } from '@angular/common/http';
 import { LayoutModule } from '@angular/cdk/layout';
-import { NgForageModule } from 'ngforage';
 
 import { NgxMasonryModule } from 'ngx-masonry';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
@@ -34,8 +33,7 @@ import { ImageViewerComponent } from './image-viewer/image-viewer.component';
     LayoutModule,
     AppRoutingModule,
     NgxMasonryModule,
-    InfiniteScrollModule,
-    NgForageModule.forRoot()
+    InfiniteScrollModule
   ],
   providers: [],
   bootstrap: [AppComponent],
