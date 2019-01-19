@@ -15,10 +15,13 @@ import { FileService, Image } from '../services/file.service';
 export class ImageMasonryComponent implements OnInit {
 
   columnWidth = appConfig.columnWidth;
+  loadingImage = appConfig.loadingImage;
   isMobile = window.innerWidth < appConfig.mobileWidth;
 
   containerWidth: number;
+  onload = false;
   imagesNum = 0;
+
   loadedImages: Image[] = [];
   images: Image[] = [];
 
@@ -99,10 +102,12 @@ export class ImageMasonryComponent implements OnInit {
       path => {
         this.loadedImages.length = 0;
         this.images.length = 0;
+        this.onload = false;
         this.fileService.getImages(path, this.images,
           () => {
             this.imagesNum = this.images.length;
             this.loadMoreImage();
+            this.onload = true;
           }
         );
       }

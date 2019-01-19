@@ -28,8 +28,17 @@
   color: white;
 }
 
-.counter {
+.footer {
   width: 100%;
-  color: gray;
+  margin: 24px 0;
   text-align: center;
+}
+
+.footer-loading {
+  max-width: 32px;
+  max-height: 32px;
+}
+
+.footer-counter {
+  color: gray;
 }

@@ -24,8 +24,12 @@
     </div>
   </ngxMasonryItem>
 </ngx-masonry>
-<div class="counter">
-  <p>
+<div class="footer">
+  <img *ngIf="!onload"
+       [src]="loadingImage" alt="loading..."
+       class="footer-loading">
+  <p *ngIf="onload"
+     class="footer-counter">
     - {{images.length}}/{{imagesNum}} -
   </p>
 </div>
