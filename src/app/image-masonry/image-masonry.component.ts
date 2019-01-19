@@ -18,7 +18,7 @@ export class ImageMasonryComponent implements OnInit {
   isMobile = window.innerWidth < appConfig.mobileWidth;
 
   containerWidth: number;
-  imagesNum: number;
+  imagesNum = 0;
   loadedImages: Image[] = [];
   images: Image[] = [];
 
