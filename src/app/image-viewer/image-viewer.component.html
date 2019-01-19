@@ -1,10 +1,16 @@
 <div class="dialog-panel">
   <div>
-    <img class="dialog-image" [src]="images[index].src" alt="Image" (click)="closeThisDialog()">
+    <a target="_blank" [href]="images[index].src">
+      <img class="dialog-image" [src]="images[index].src" alt="Image">
+    </a>
   </div>
-  <div class="dialog-actions">
-    <button mat-raised-button class="dialog-button" (click)="index = (index - 1 + images.length) % images.length">Prev</button>
-    <button mat-raised-button class="dialog-button" mat-dialog-close>Close</button>
-    <button mat-raised-button class="dialog-button" (click)="index = (index + 1 + images.length) % images.length">Next</button>
+  <div>
+    <p class="dialog-info dialog-info-title">{{images[index].title}}</p>
+    <p class="dialog-info">{{images[index].time * 1000 | date:'yyyy-MM-dd HH:mm:ss'}}</p>
   </div>
+</div>
+<div class="dialog-actions">
+  <button mat-raised-button class="dialog-button" (click)="index = (index - 1 + images.length) % images.length">Prev</button>
+  <button mat-raised-button class="dialog-button" mat-dialog-close>{{index}}</button>
+  <button mat-raised-button class="dialog-button" (click)="index = (index + 1 + images.length) % images.length">Next</button>
 </div>

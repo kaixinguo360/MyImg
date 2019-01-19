@@ -13,10 +13,6 @@ export class ImageViewerComponent implements OnInit {
   images: Image[] = [];
   index = this.data.index;
 
-  closeThisDialog(): void {
-    this.dialogRef.close();
-  }
-
   constructor(
     private fileService: FileService,
     @Inject(MAT_DIALOG_DATA) public data: any,
