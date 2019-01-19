@@ -17,10 +17,13 @@
         <button mat-menu-item>Search</button>
       </mat-menu>
       <img class="image"
-           [src]="img.src"
-           (load)="updateLayout()"
+           [src]="loadingImage" alt="loading..."
+           #loader>
+      <img class="image image-loading"
+           [src]="img.src" alt="{{img.title}}"
+           (load)="loader.hidden = true; image.className = 'image'; updateLayout()"
            (click)="openImageViewer(index)"
-           alt="{{img.title}}">
+           #image>
     </div>
   </ngxMasonryItem>
 </ngx-masonry>

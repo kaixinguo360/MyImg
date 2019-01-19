@@ -21,6 +21,10 @@
   border-radius: 10px;
 }
 
+.image-loading {
+  display:none;
+}
+
 .more-button {
   position: absolute;
   bottom: 10px;
